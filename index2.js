@@ -1,5 +1,6 @@
 import Snake from './Snake.js'
 import Board from './Board.js'
+import Fruit from './Fruit.js'
 
 const board = new Board(document.querySelector('#board'))
 
@@ -9,9 +10,18 @@ let snake = new Snake(snakeDiv)
 let btn = document.querySelector('#btn')
 let alert = document.querySelector('#alert')
 
+
+
+//fruit.generate(board.width)
+// board initialization
 board.update()
 board.devTools()
-snake.generateFruit(board.width)
+
+let fruit = new Fruit(board.width)
+
+// fruit initialization
+
+//snake.generateFruit(board.width)
 
 window.addEventListener('resize', () => {
   board.width = 0
@@ -19,7 +29,7 @@ window.addEventListener('resize', () => {
   board.devTools()
 })
 
-var fps =2;
+var fps =1;
 var now;
 var then;
 var interval = 1000/fps;
@@ -29,25 +39,29 @@ function play(){
 
 function draw(now) {
     if (!then) { then = now; }
-    window.requestAnimationFrame(draw);
+    
     delta = now - then;
   if (delta > interval) {
-   
+    
     then = now - (delta % interval);
     if (snake.status === "ongoing") {
       
       snake.update()
+      //snake.bodyMove()
       snake.checkWalls(board.rightWall)
+      snake.checkFruit(fruit)
+      if (snake.isEaten === true) {
+        // will remove the fruit and generate a new one here, if one fruit has been eaten
+        fruit.moveToRandomPosition()
+        snake.isEaten = false
+      }
+    
       snake.moved = false
     }
-
-    
-    
- 
       //snake.move()
   
-          
-    }
+  }
+  window.requestAnimationFrame(draw);
 }
   draw();
 }

@@ -1,6 +1,5 @@
 const wrapper = document.querySelector('#container')
 const board = document.querySelector('#board')
-let fruit 
 
 export default class Snake {
   constructor(snakeHead, direction) {
@@ -14,8 +13,7 @@ export default class Snake {
     this.moved = false; 
     this.totalFruits = 0;
     this.bodyCount = 0;
-  
-    
+    this.isEaten = false;
   }
 
   get x() {
@@ -32,28 +30,8 @@ export default class Snake {
     return this.snakeHead.style.setProperty('--y', value);
   }
 
-  get fruit_x_value() {
-    fruit = document.querySelector('.fruit')
-    return parseFloat(getComputedStyle(fruit).getPropertyValue('--x-fruit'))
-  }
-  get fruit_y_value() {
-    fruit = document.querySelector('.fruit')
-    return parseFloat(getComputedStyle(fruit).getPropertyValue('--y-fruit'))
-  }
-
-  set fruit_x_value(value) {
-    fruit = document.querySelector('.fruit')
-    return fruit.style.setProperty('--x-fruit', value);
-  }
-  set fruit_y_value(value) {
-    fruit = document.querySelector('.fruit')
-    return fruit.style.setProperty('--y-fruit', value);
-  }
-
   update() {
-
-    
-   
+    /*
     console.log("---ENTERING UPDATE---")
     console.log('MMMMMMMMMMMMMMMMMMMMM')
     console.log(this.body)
@@ -61,6 +39,7 @@ export default class Snake {
     console.log(`fruit x : ${this.fruit_x_value}`)
     console.log(`fruit y : ${ this.fruit_y_value }`)
     console.log('MMMMMMMMMMMMMMMMMMMMM')
+    */
   
     document.addEventListener('keydown', (e) => {
       e.preventDefault()
@@ -78,7 +57,6 @@ export default class Snake {
             }
             this.direction = 'ArrowLeft'
             this.axis = 'horizontal'
-
             break;
           case 'ArrowRight':
             if (this.axis != 'horizontal') {
@@ -87,7 +65,6 @@ export default class Snake {
             }
             this.direction = 'ArrowRight'
             this.axis = 'horizontal'
-
             break;
           case 'ArrowUp':
             if (this.axis != 'vertical') {
@@ -96,7 +73,6 @@ export default class Snake {
             }
             this.direction = 'ArrowUp'
             this.axis = 'vertical'
-
             break;
           case 'ArrowDown':
             if (this.axis != 'vertical') {
@@ -105,18 +81,12 @@ export default class Snake {
             }
             this.direction = 'ArrowDown'
             this.axis = 'vertical'
-
             break;
-      
           }
         }
-
     });
-    
-
 
     if (this.moved === false) {
-
       if (this.direction === 'ArrowLeft')
         this.y -= 1
       if (this.direction === 'ArrowRight')
@@ -126,7 +96,6 @@ export default class Snake {
       if (this.direction === 'ArrowDown')
         this.x += 1
     }
-
     /*
     let obj = {
       x: this.x,
@@ -134,38 +103,18 @@ export default class Snake {
     }
     this.body.push(obj)
     */
-    console.log("---CLOSING UPDATE---")
-
+    
+    //console.log("---CLOSING UPDATE---")
   }
-
-
-  generateFruit(width) {
-    // let randomNumber1 = Math.floor(Math.random() * 40);
-    if (this.totalFruits === 0) {
-      let fruit = document.createElement('div')
-      fruit.className += `fruit`
-      board.appendChild(fruit)
-      this.totalFruits = 1;
-      this.fruit_x_value = Math.floor(Math.random() * 40);
-      this.fruit_y_value = Math.floor(Math.random() * width); // hmm c pas 41 ^^
-    }
-
-  }
-
-  showFruit() {
-    console.log(`the fruit is `)
-  }
-
 
   checkWalls(rightWall) {
     let leftWall = 0;
     let topWall = 0;
     let bottomWall = 40;
-    
-    console.log("START AUTO MOVING")
-    console.log(rightWall)
-    console.log(`snakehead current y : ${this.y}`)
-    console.log(`snakehead current x : ${this.x}`)
+    //console.log("====START CHECKING FOR WALLS====")
+    //console.log(rightWall)
+    //console.log(`snakehead current y : ${this.y}`)
+    //console.log(`snakehead current x : ${this.x}`)
     if (this.y >= rightWall)
       this.isLose()
     if (this.y < leftWall)
@@ -174,23 +123,46 @@ export default class Snake {
       this.isLose()
     if (this.x >= bottomWall)
       this.isLose()
+    //console.log("====END CHECKING FOR WALLS====")
+  }
 
-    if (this.x === this.fruit_x_value && this.y === this.fruit_y_value) {
+  checkFruit(fruit) {
+    if (this.x === fruit.x && this.y === fruit.y) {
       console.log('ZZZZZZZZZZZZZZZZ')
       console.log('ZZZZZZZZZZZZZZZZ')
       console.log('the fruit is ready to be eaten')
       console.log('ZZZZZZZZZZZZZZZZ')
       console.log('ZZZZZZZZZZZZZZZZ')
+
+      // say that the snake has eaten this round 
+      this.isEaten = true
+      
+      /*
       let snakeIncrementation = document.createElement('div')
       snakeIncrementation.className += `snake-body`
       board.appendChild(snakeIncrementation)
+      let snakeChild = {
+        x: this.x,
+        y: this.y
+      }
+      this.body.push(snakeChild)
       this.bodyCount += 1
+      */
     }
-    
-    console.log("END AUTO MOVING")
   }
 
-  
+
+  bodyMove() {
+    console.log('JJJJJJJJJJJJJJJJJJJJJJJJ')
+    console.log('JJJJJJJJJJJJJJJJJJJJJJJJ')
+    this.body.forEach((e) => {
+      console.log(e)
+      // e.x = this.this.x
+    })
+    console.log('JJJJJJJJJJJJJJJJJJJJJJJJ')
+    console.log('JJJJJJJJJJJJJJJJJJJJJJJJ')
+  }
+
 
   isLose() {
     this.status = "lost"
@@ -205,9 +177,7 @@ export default class Snake {
     board.appendChild(alert)
     */
     let alert = document.querySelector('#alert')
-
     alert.style.opacity = '1';
-
     console.log('----END IS LOSE----')
   }
 
