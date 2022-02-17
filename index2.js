@@ -29,7 +29,7 @@ window.addEventListener('resize', () => {
   board.devTools()
 })
 
-var fps =1;
+var fps =3;
 var now;
 var then;
 var interval = 1000/fps;
@@ -37,17 +37,24 @@ var delta;
 
 function play(){
 
-function draw(now) {
+  function draw(now) {
+ 
     if (!then) { then = now; }
-    
+    window.requestAnimationFrame(draw);
     delta = now - then;
   if (delta > interval) {
     
     then = now - (delta % interval);
     if (snake.status === "ongoing") {
       
+      snake.bodyMove()
       snake.update()
-      //snake.bodyMove()
+
+
+      snake.last_x = snake.x
+      snake.last_y = snake.y
+      snake.moved = false
+ 
       snake.checkWalls(board.rightWall)
       snake.checkFruit(fruit)
       if (snake.isEaten === true) {
@@ -56,12 +63,12 @@ function draw(now) {
         snake.isEaten = false
       }
     
-      snake.moved = false
+    
     }
       //snake.move()
   
   }
-  window.requestAnimationFrame(draw);
+  
 }
   draw();
 }

@@ -88,8 +88,8 @@ body {
 }
 
 .snake-body {
-  --x: 0;
-  --y: 0;
+  --x: -20;
+  --y: -20;
   position: absolute;
   top: calc(var(--x) * 2vh);
   left: calc(var(--y) * 2vh);
