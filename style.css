@@ -43,6 +43,8 @@ body {
   width: 2vh;
   height: 2vh;
 
+
+  transition: .5s;
   background-color: red;
   position: absolute;
   top: calc(var(--x) * 2vh);
@@ -88,6 +90,8 @@ body {
 }
 
 .snake-body {
+  animation: .5s cubic-bezier(.99,-0.01,1,.01);
+  transition: .5s;
   --x: -20;
   --y: -20;
   position: absolute;
