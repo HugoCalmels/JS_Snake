@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Glitch&display=swap');
+
 *, *::after, *::before{
-  box-sizing: border-box;
-  overflow: hidden;
 }
 body {
+  font-family: 'Kanit', sans-serif;
   margin: 0;
   height: 100vh;
 }
@@ -20,12 +21,13 @@ body {
   height: 100vh;
   background: var(--foreground-color);
   position: relative;
+  gap: 5%;
 }
 
 #board {
   --width: 40;
   background: var(--background-color);
-
+  border: 3px solid var(--third-color);
 
   border-radius: 10px;
   position: relative;
@@ -42,36 +44,40 @@ body {
   --y: 0;
   width: 2vh;
   height: 2vh;
-
-
-  transition: .5s;
-  background-color: red;
+  border-top-right-radius: 5rem;
+  border-bottom-right-radius: 5rem;
+   background-color: green;
   position: absolute;
   top: calc(var(--x) * 2vh);
   left: calc(var(--y) * 2vh);
+  transition: 0.2s;
+  animation: .2s cubic-bezier(0,.48,.63,.99);
+}
 
+
+.snake-eyes{
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.snake-eye {
+  background-color:red;
+  width: 3px;
+  height: 3px;
 }
 
 .board-cell {
   display: flex;
-  border: 1px solid black;
   box-sizing: border-box;
   width: 2vh;
   height: 2vh;
 }
 
-#alert {
 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 5px solid red;
-  background-color: white;
-  width: 50%;
-  height: 50%;
-  opacity: 0;
-}
 
 .fruit {
   --x-fruit: 19;
@@ -83,15 +89,29 @@ body {
   height: 2vh;
   display: flex;
   border: 1px solid black;
-  background-color: yellow;
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,239,0,1) 0%, rgba(247,67,2,1) 100%);
   box-sizing: border-box;
   width: 2vh;
   height: 2vh;
+  border-radius: 40%;
+}
+
+.fruit-tail {
+  position: absolute;
+  height: .6vh;
+  width: 2px;
+  
+  top: -.6vh;
+  left: 50%;
+  right: 50%;
+  z-index: 3;
+  transform: translateX(-50%);
+  background-color: brown;
+  border: 1px solid black;
+  border-radius: 10px 500px / 300px;
 }
 
 .snake-body {
-  animation: .5s cubic-bezier(.99,-0.01,1,.01);
-  transition: .5s;
   --x: -20;
   --y: -20;
   position: absolute;
@@ -100,9 +120,117 @@ body {
   width: 2vh;
   height: 2vh;
   display: flex;
-  border: 1px solid black;
+
   background-color: green;
   box-sizing: border-box;
+  transition: 0.2s;
+  animation: .2s cubic-bezier(0,.48,.63,.99);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 6;
+}
+
+.snake-digest{
+  --x-fruitDigest: 19;
+  --y-fruitDigest: 10;
+  top: calc(var(--x-fruitDigest) * 2vh);
+  left: calc(var(--y-fruitDigest) * 2vh);
   width: 2vh;
   height: 2vh;
+  position: absolute;
+  border-radius: 1rem;
+  background:darkgreen;
+  border: 1px solid black;
+  z-index: 7;
+  opacity: .50;
+
 }
+
+
+#menu {
+  --width: 40;
+
+
+  color: var(--third-color);
+  border-radius: 10px;
+  position: relative;
+  width: 85%;
+  height: 80%;
+  border: 3px solid var(--background-color);
+
+}
+
+
+#pause {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+#pause.active{
+  display: block;
+}
+
+.pause-icon{
+  background: var(--third-color);
+  position: absolute;
+  width: 20%;
+  height: 60%;
+}
+
+.pause-icon.left{
+  top: 20%;
+  left: 20%;
+  bottom: 20%;
+}
+.pause-icon.right{
+  top: 20%;
+  right: 20%;
+  bottom: 20%;
+}
+
+#alert {
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid  var(--third-color);
+  border-radius: 1rem;
+  background-color: var(--foreground-color);
+  width: 50%;
+  height: 50%;
+  opacity: 0;
+  color: var(--background-color);
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+#alert h4 {
+
+  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: .1rem;
+  margin: 0;
+  padding: 0;
+}
+
+#alert input{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height:6vh;
+  width: 80%;
+  font-size: 3vh;
+}
+

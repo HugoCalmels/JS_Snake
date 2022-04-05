@@ -1,5 +1,3 @@
-let board = document.querySelector('#board');
-let fruit = document.querySelector('.fruit')
 
 export default class Fruit {
   constructor(boardWidth) {
@@ -7,7 +5,7 @@ export default class Fruit {
     this.board = document.querySelector('#board');
     this.newFruit()
     this.fruitElem = document.querySelector('.fruit');
-    this.moveToRandomPosition()
+    this.firstMove() 
   }
 
   get x() {
@@ -25,33 +23,31 @@ export default class Fruit {
   }
 
   newFruit() {
-    console.log('====INITIALIZE FRUIT START====')
-
     let newFruit = document.createElement('div')
     newFruit.className += `fruit`
+    let fruitTail = document.createElement('div')
+    fruitTail.className += `fruit-tail`
+    newFruit.append(fruitTail)
     this.board.appendChild(newFruit)
-    
-
-    console.log('====INITIALIZE FRUIT END====')
   }
 
-  moveToRandomPosition() {
-    console.log('====GENERATING FRUIT START====')
-    console.log(this.x)
-    console.log(this.fruitElem)
-
+  firstMove() {
     this.x = Math.floor(Math.random() * 40);
-    this.y = Math.floor(Math.random() * this.boardWidth);
-    console.log('====GENERATING FRUIT END====')
+    this.y = Math.floor(Math.random() * this.boardWidth/1.5);
   }
 
-  generate(width) {
-    console.log('====GENERATING FRUIT START====')
-    console.log(this.fruitElem)
-    console.log(this.fruitElem)
-      console.log('====GENERATING FRUIT END====')
+  moveToRandomPosition(bodies) {
+    // think I made it impossible to spawn a fruit inside the snake body
+    let X_RANDOM_ATTEMP = Math.floor(Math.random() * 40);
+    let Y_RANDOM_ATTEMP = Math.floor(Math.random() * this.boardWidth / 1.5);
+    bodies.forEach((body) => {
+      while (body.x === X_RANDOM_ATTEMP || body.y === Y_RANDOM_ATTEMP) {
+        X_RANDOM_ATTEMP = Math.floor(Math.random() * 40);
+        Y_RANDOM_ATTEMP = Math.floor(Math.random() * this.boardWidth / 1.5);
+      }
+    })
+    this.x = X_RANDOM_ATTEMP
+    this.y = Y_RANDOM_ATTEMP
   }
-
-
 
 }
