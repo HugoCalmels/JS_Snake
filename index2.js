@@ -3,8 +3,8 @@ import Snake from './Snake.js';
 import Board from './Board.js';
 import Fruit from './Fruit.js';
 import SnakeDigest from './SnakeDigest.js';
-import data from './data.js';
 
+let db = new Localbase('db')
 
 var fps =2;
 var now;
@@ -23,6 +23,12 @@ let pauseElem = document.querySelector('#pause');
 board.update();
 let snake = new Snake(snakeDiv, board.width);
 let fruit = new Fruit(board.width);
+
+const leaderboard = document.querySelector('.menu-leaderboard')
+
+
+
+
 /* extra old code up resize the board 
 window.addEventListener('resize', () => {
   board.width = 0
@@ -59,10 +65,34 @@ async function checkData() {
 listenForOnePause();
 // listen restart btn
 btn.addEventListener('click', () => {
+  db.collection('users').add({
+    userName: snake.userName,
+    score: snake.score
+  })
 
-  data.push({ userName: snake.userName, score: snake.score })
+  setTimeout(() => {
+    // reset leaderboard
+    let lastLeaderboardElements = document.querySelectorAll('.menu-leaderboard-user')
+    if (lastLeaderboardElements.length > 0) {
+      lastLeaderboardElements.forEach((el) => el.remove())
+    }
+    // rewrite leaderboard
+    db.collection('users').get().then(users => {
+      console.log(users)
+      let newUserScore = document.createElement('div')
+      newUserScore.className += 'menu-leaderboard-user'
+      newUserScore.innerHTML = `
+      <p>${snake.userName}</p> <p>${snake.score}</p>
+      `
+      leaderboard.append(newUserScore)
+    })
+    
+  },250)
+
+
+  //data.push({ userName: snake.userName, score: snake.score })
   
-  data.forEach((el) => console.log(el))
+  //data.forEach((el) => console.log(el))
   /*
   writeNewData().then(() => {
     checkData().then((data) => {
@@ -73,8 +103,8 @@ btn.addEventListener('click', () => {
     })
   })
 */
-
 })
+
 let inputName = document.querySelector('#alert input')
 console.log(inputName)
 
