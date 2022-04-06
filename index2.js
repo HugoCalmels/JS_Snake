@@ -269,7 +269,7 @@ function listenInput(){
 
 async function writeNewData() {
 
-  await fetch('http://localhost:3000/api/v1/users', {
+  await fetch('https://snake-api-plus.herokuapp.com/api/v1/users', {
     method: 'POST',
     body: JSON.stringify({
       name: snake.userName,
@@ -280,7 +280,7 @@ async function writeNewData() {
 }
 
 async function getData() {
-  const response = await fetch('http://localhost:3000/api/v1/users', {
+  const response = await fetch('https://snake-api-plus.herokuapp.com/api/v1/users', {
     method: 'GET',
   })
   const data = await response.json()
