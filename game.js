@@ -1,12 +1,10 @@
 
-import Snake from './Snake.js';
-import Board from './Board.js';
-import Fruit from './Fruit.js';
-import SnakeDigest from './SnakeDigest.js';
+import Snake from './components/Snake.js';
+import Board from './components/Board.js';
+import Fruit from './components/Fruit.js';
+import SnakeDigest from './components/SnakeDigest.js';
 
-
-
-
+// VARIABLES
 var fps =2;
 var now;
 var then;
@@ -30,8 +28,6 @@ const leaderboard = document.querySelector('.menu-leaderboard')
 let input = document.querySelector('#input-elem')
 let loader = document.querySelector('.loader-elem')
 
-
-
 /* extra old code up resize the board 
 window.addEventListener('resize', () => {
   board.width = 0
@@ -40,30 +36,18 @@ window.addEventListener('resize', () => {
 })
 */
 
-//
-
-// 1 time initialization leaderboard
-
-
+// --- DEBUT DE LA SEQUENCE --- //
 // load le leaderboard 
 firstDisplayOfData()
-
 
 // listeners
 listenForOnePause();
 listenResetBtn()
 listenInput()
-
-
-
-
-
-
-setTimeout(() => {
-  play()
-}, 500)
+// --- FIN DE LA SEQUENCE --- //
 
 // functions 
+
 function play() {
   // the main function
   draw(); 
@@ -139,12 +123,7 @@ function draw(now) {
         
     
         if (snake.isEaten === true) {
-          // will remove the fruit and generate a new one here, if one fruit has been eaten
-            // fruit has been handled, now the rest of the fruit must stay inside the snake
-          //let snakeDigest = document.createElement('div')
-          //snakeDigest.className += ' snake-digest'
-          //let newSnakeDigestElem = document.createElement('div')
-          //newSnakeDigestElem.className += 'snake-digest'
+          // will move ( not remove ) the fruit and generate a new one here, if one fruit has been eaten
           let snakeDigest = new SnakeDigest(snake.body[0].x, snake.body[0].y)
           snakeDigest.moveToPosition()
           snakeDigestArray.push(snakeDigest)
@@ -159,13 +138,6 @@ function draw(now) {
               snakeDigestArray.pop()
             }
           }
-          /*
-          snakeDigestArray.forEach((digest)=>{
-            if (snake.checkDigest(digest.x, digest.y) === false) {
-              
-            }
-          })
-          */
         }
       }
     }
@@ -185,7 +157,6 @@ function listenForOnePause() {
       }
   })
 }
-
 
 function listenResetBtn() {
   btn.addEventListener('click', () => {
@@ -217,16 +188,15 @@ function listenResetBtn() {
           leaderboard.append(newUserScore)
         })
  
-        loader.classList.remove('active')
-     
-
         // nouveau jeu
+        loader.classList.remove('active')
         snake.reset(board.width);
         alert.style.opacity = 0;
-        play();
         form.reset()
         btn.classList.remove('active')
         input.classList.remove('active')
+        // relancement du jeu
+        play();
       })
     })
   
@@ -234,9 +204,6 @@ function listenResetBtn() {
 }
 
 function listenInput(){
-  if (snake.status !== 'ongoing'){
-    
-  }
   inputName.addEventListener('keydown', (e) => {
     if (e.keyCode >= 48 && e.keyCode <= 90) {
       console.log(e)
@@ -247,10 +214,9 @@ function listenInput(){
       console.log('BACKSPACE TRIGGERED')
       snake.userName = snake.userName.slice(0, -1)
       inputName.value = snake.userName
-  
     }
 
-    // displaying "play again" button .. or not
+    // displaying "play again" button, depending on characeters length
     if (snake.userName.length > 3 && snake.userName.length < 13) {
       btn.classList.add('active')
       input.classList.add('active')
@@ -263,12 +229,9 @@ function listenInput(){
 }
 
 
-
-
 // async functions 
 
 async function writeNewData() {
-
   await fetch('https://snake-api-plus.herokuapp.com/api/v1/users', {
     method: 'POST',
     body: JSON.stringify({
@@ -302,9 +265,10 @@ function firstDisplayOfData() {
         <p class="leaderboard-user-score">${el.score}</p>
       `
         leaderboard.append(newUserScore)
-
       })
     }
+    loader.classList.remove('active')
+    // lancement du jeu
+    play()
   })
-  loader.classList.remove('active')
 }
