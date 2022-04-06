@@ -263,7 +263,7 @@ body {
     top:50%;
     transform: translate(-50%, -50%);
   z-index: 15;
-  transition: 0.3s;
+  transition: 1s;
   display:none;
   border: 5px solid purple;
   opacity: 0;
@@ -272,6 +272,7 @@ body {
 
 .loader-elem.active{
   display:block;
+  transition: 1s;
 }
 
 /* ----------- */

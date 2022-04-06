@@ -39,7 +39,6 @@ window.addEventListener('resize', () => {
 // --- DEBUT DE LA SEQUENCE --- //
 // load le leaderboard 
 firstDisplayOfData()
-
 // listeners
 listenForOnePause();
 listenResetBtn()
@@ -163,6 +162,9 @@ function listenResetBtn() {
   
     // turn on loader
     loader.classList.add('active')
+    setTimeout(() => {
+      loader.style.opacity = 1;
+    },200)
     writeNewData().then(() => {
       getData().then((data) => {
 
@@ -186,14 +188,19 @@ function listenResetBtn() {
         })
  
         // nouveau jeu
-        loader.classList.remove('active')
-        snake.reset(board.width);
-        alert.style.opacity = 0;
-        form.reset()
-        btn.classList.remove('active')
-        input.classList.remove('active')
-        // relancement du jeu
-        play();
+        setTimeout(() => {
+          loader.style.opacity = 0;
+          setTimeout(() => {
+            snake.reset(board.width);
+            alert.style.opacity = 0;
+            form.reset()
+            btn.classList.remove('active')
+            input.classList.remove('active')
+            play()
+            loader.classList.remove('active')
+          }, 500)
+        }, 200)
+
       })
     })
   
@@ -249,6 +256,11 @@ async function getData() {
 
 function firstDisplayOfData() {
   loader.classList.add('active')
+  setTimeout(() => {
+    loader.style.opacity = 1;
+
+  },200)
+
   getData().then((data) => {
     if (data.length > 0) {
       // trier la data en fonction du score
@@ -264,10 +276,18 @@ function firstDisplayOfData() {
         leaderboard.append(newUserScore)
       })
     }
+
     setTimeout(() => {
-      loader.classList.remove('active')
-       // lancement du jeu
-      play()
-    },(1000))
+      loader.style.opacity = 0;
+      setTimeout(() => {
+        play()
+        loader.classList.remove('active')
+      }, 500)
+   
+    }, 200)
+
+
+    //loader.classList.remove('active')
+
   })
 }
