@@ -133,7 +133,7 @@ function draw(now) {
 
           for (let i = 0; i < snakeDigestArray.length; i++){
             if (snake.checkDigest(snakeDigestArray[i].x, snakeDigestArray[i].y) === false) {
-              document.querySelectorAll('.snake-digest')[i].remove()
+              document.querySelectorAll('.snake-digest')[0].remove()
               snakeDigestArray.pop()
             }
           }

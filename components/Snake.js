@@ -21,7 +21,7 @@ export default class Snake {
     this.unitsMoved = 0;
     this.score = 0;
     this.scoreElem = document.getElementById('score')
-    this.y = this.width / 3
+    this.y = 20
     this.x = 40 / 2
     this.userName = ''
   }
@@ -360,7 +360,7 @@ export default class Snake {
     this.last_y = 0;
     this.unitsMoved = 0;
     this.score = 0;
-    this.y = this.width / 3
+    this.y = 20
     this.x = 40 / 2
     this.userName = ''
   }
