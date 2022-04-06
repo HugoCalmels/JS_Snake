@@ -263,9 +263,11 @@ function firstDisplayOfData() {
       `
         leaderboard.append(newUserScore)
       })
+    }
+    setTimeout(() => {
       loader.classList.remove('active')
        // lancement du jeu
       play()
-    }
+    },(1000))
   })
 }
