@@ -8,24 +8,28 @@
   <link href="style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-  
-
 
   <div id="container">
- 
-  <div id="board">
+    
+    <!-- DEBUT DU BOARD -->
+    <div id="board"> 
 
-    <div class="fruits-digest-wrapper">
-      
+    <div class="loader-elem">
+      <img src="./assets/gif/RedLoader2.gif" alt="loader" />
     </div>
+
+    <div class="fruits-digest-wrapper"></div>
     
     <div id="pause">
       <div class="pause-icon left"></div>
       <div class="pause-icon right"></div>
     </div>
+
     <div id="alert">
       <h4>GAME OVER</h4>
-      <input  name="myText" value="" type="text" placeholder="Enter your name ..">
+      <form>
+        <input id='input-elem'  name="name" value="" type="text" placeholder="Enter your name ..">
+      </form>
       <button id="btn">Play again</button>
     </div>
 
@@ -34,30 +38,48 @@
       <div class="snake-eyes">
         <div class="snake-eye 1"></div>
         <div class="snake-eye 2"></div>
+      </div>
+    </div>
+
+  </div> <!-- FIN DU BOARD -->
+
+  <div id="menu">
+    
+    <div class="menu-header">
+      <div class="score-header">
+        <h2>SCORE : <span id="score">0</span></h2>
+      </div>
+
+      <div class="controls">
+        <div class="controls-header">
+          <h2 class="score-header">CONTROLS : </h2> 
+        </div>
+        <div class="controls-logos-container">
+          <img src="./assets/logos/controls.jpg">
+        </div>
+      </div>  
+      
+      <div class="menu-pause">
+        <div class="pause-header">
+          <h2 class="score-header">PAUSE : </h2> 
+        </div>
+        <div class="pause-logos-container">
+          <img src="./assets/logos/spacebar2.png">
         </div>
       </div>
+
+    </div> <!-- FIN DU MENU HEADER -->
+
+
+    <div class="leaderboard-container">
+      <h3 class="leaderboard-title">LEADERBOARD</h3>
+      <div class="menu-leaderboard"></div>
     </div>
 
+  </div> <!-- FIN DU MENU -->
     
-
-    <div id="menu">
-      <div class="menu-header">
-      <h2>SCORE : <span id="score"></span></h2>
-      </div>
-    <div class="menu-leaderboard">
-      
-    </div>
-    </div>
-    
-  </div>
-  </div>
-
-
-
-
-
-  <script src="https://unpkg.com/localbase/dist/localbase.min.js"></script>
-
+</div> <!-- FIN DU CONTAINER -->
+ 
 
   <script src="index2.js" type="module"></script>
 </body>

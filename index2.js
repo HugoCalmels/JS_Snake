@@ -4,7 +4,8 @@ import Board from './Board.js';
 import Fruit from './Fruit.js';
 import SnakeDigest from './SnakeDigest.js';
 
-let db = new Localbase('db')
+
+
 
 var fps =2;
 var now;
@@ -23,9 +24,11 @@ let pauseElem = document.querySelector('#pause');
 board.update();
 let snake = new Snake(snakeDiv, board.width);
 let fruit = new Fruit(board.width);
-
+let inputName = document.querySelector('#alert input')
+let form = document.querySelector('#alert form')
 const leaderboard = document.querySelector('.menu-leaderboard')
-
+let input = document.querySelector('#input-elem')
+let loader = document.querySelector('.loader-elem')
 
 
 
@@ -38,87 +41,23 @@ window.addEventListener('resize', () => {
 */
 
 //
-async function writeNewData() {
 
-  /*
-  await fetch('./data.json', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({userName: snake.userName, score: snake.score})
-  });
-  */
+// 1 time initialization leaderboard
 
-}
 
-async function checkData() {
-  const response = await fetch('./data.json')
-  const data = await response.json()
-  return data
+// load le leaderboard 
+firstDisplayOfData()
 
-}
-//
 
-// listen for pause anytime
+// listeners
 listenForOnePause();
-// listen restart btn
-btn.addEventListener('click', () => {
-  db.collection('users').add({
-    userName: snake.userName,
-    score: snake.score
-  })
-
-  setTimeout(() => {
-    // reset leaderboard
-    let lastLeaderboardElements = document.querySelectorAll('.menu-leaderboard-user')
-    if (lastLeaderboardElements.length > 0) {
-      lastLeaderboardElements.forEach((el) => el.remove())
-    }
-    // rewrite leaderboard
-    db.collection('users').get().then(users => {
-      console.log(users)
-      let newUserScore = document.createElement('div')
-      newUserScore.className += 'menu-leaderboard-user'
-      newUserScore.innerHTML = `
-      <p>${snake.userName}</p> <p>${snake.score}</p>
-      `
-      leaderboard.append(newUserScore)
-    })
-    
-  },250)
+listenResetBtn()
+listenInput()
 
 
-  //data.push({ userName: snake.userName, score: snake.score })
-  
-  //data.forEach((el) => console.log(el))
-  /*
-  writeNewData().then(() => {
-    checkData().then((data) => {
-      console.log(data)
-      snake.reset(board.width);
-      alert.style.opacity = 0;
-      play();
-    })
-  })
-*/
-})
 
-let inputName = document.querySelector('#alert input')
-console.log(inputName)
 
-inputName.addEventListener('keydown', (e) => {
-  if (e.keyCode >= 48 && e.keyCode <= 90) {
-    console.log(e)
-    snake.userName += e.key
-    inputName.value = snake.userName
-  } else if (e.keyCode === 8) {
-    console.log('BACKSPACE TRIGGERED')
-    snake.userName = snake.userName.slice(0, -1)
-    inputName.value = snake.userName
-  }
-})
+
 
 setTimeout(() => {
   play()
@@ -136,7 +75,7 @@ function draw(now) {
     delta = now - then;
     if (delta > interval) {
       then = now - (delta % interval);
-      // done with recursive here
+      // we are done with recursive here
       if (snake.status === "ongoing") {
         keyboardHasBeenPressed = false // reset de la variable
         // check if snakeHead & snakeBody collided
@@ -232,6 +171,7 @@ function draw(now) {
     }
 }
 
+// listeners functions
 
 function listenForOnePause() {
   window.addEventListener('keydown', (key) => {
@@ -244,4 +184,127 @@ function listenForOnePause() {
         pauseElem.classList.remove('active')
       }
   })
+}
+
+
+function listenResetBtn() {
+  btn.addEventListener('click', () => {
+  
+    // turn on loader
+    let loader = document.querySelector('.loader-elem')
+    console.log(loader)
+
+    loader.classList.add('active')
+    writeNewData().then(() => {
+      getData().then((data) => {
+
+        // reset leaderboard
+        let lastLeaderboardElements = document.querySelectorAll('.menu-leaderboard-user')
+        if (lastLeaderboardElements.length > 0) {
+          lastLeaderboardElements.forEach((el) => el.remove())
+        }
+        
+        // trier la data en fonction du score
+        let sortedData = data.sort(function (a, b) {return b.score - a.score})
+        sortedData.forEach((el, index) => {
+          let newUserScore = document.createElement('div')
+          newUserScore.className += 'menu-leaderboard-user'
+          newUserScore.innerHTML = `
+          <p class="leaderboard-user-index">#${index + 1}</p>
+          <p class="leaderboard-user-name">${el.name}</p>
+          <p class="leaderboard-user-score">${el.score}</p>
+          `
+          leaderboard.append(newUserScore)
+        })
+ 
+        loader.classList.remove('active')
+     
+
+        // nouveau jeu
+        snake.reset(board.width);
+        alert.style.opacity = 0;
+        play();
+        form.reset()
+        btn.classList.remove('active')
+        input.classList.remove('active')
+      })
+    })
+  
+  })
+}
+
+function listenInput(){
+  if (snake.status !== 'ongoing'){
+    
+  }
+  inputName.addEventListener('keydown', (e) => {
+    if (e.keyCode >= 48 && e.keyCode <= 90) {
+      console.log(e)
+      snake.userName += e.key
+      inputName.value = snake.userName
+      
+    } else if (e.keyCode === 8) {
+      console.log('BACKSPACE TRIGGERED')
+      snake.userName = snake.userName.slice(0, -1)
+      inputName.value = snake.userName
+  
+    }
+
+    // displaying "play again" button .. or not
+    if (snake.userName.length > 3 && snake.userName.length < 13) {
+      btn.classList.add('active')
+      input.classList.add('active')
+    } else {
+      btn.classList.remove('active')
+      input.classList.remove('active')
+    }
+      
+  })
+}
+
+
+
+
+// async functions 
+
+async function writeNewData() {
+
+  await fetch('http://localhost:3000/api/v1/users', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: snake.userName,
+      score: snake.score
+    }),
+    headers: { 'Content-Type': 'application/json' }
+    })
+}
+
+async function getData() {
+  const response = await fetch('http://localhost:3000/api/v1/users', {
+    method: 'GET',
+  })
+  const data = await response.json()
+  return data
+}
+
+function firstDisplayOfData() {
+  loader.classList.add('active')
+  getData().then((data) => {
+    if (data.length > 0) {
+      // trier la data en fonction du score
+      let sortedData = data.sort(function (a, b) {return b.score - a.score})
+      sortedData.forEach((el,index) => {
+        let newUserScore = document.createElement('div')
+        newUserScore.className += 'menu-leaderboard-user'
+        newUserScore.innerHTML = `
+        <p class="leaderboard-user-index">#${index + 1}</p>
+        <p class="leaderboard-user-name">${el.name}</p>
+        <p class="leaderboard-user-score">${el.score}</p>
+      `
+        leaderboard.append(newUserScore)
+
+      })
+    }
+  })
+  loader.classList.remove('active')
 }
