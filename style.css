@@ -290,7 +290,6 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr; 
   gap: .75rem;
-  
 }
 .menu-leaderboard-user{
   display: grid;
