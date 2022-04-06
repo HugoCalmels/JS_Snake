@@ -162,9 +162,6 @@ function listenResetBtn() {
   btn.addEventListener('click', () => {
   
     // turn on loader
-    let loader = document.querySelector('.loader-elem')
-    console.log(loader)
-
     loader.classList.add('active')
     writeNewData().then(() => {
       getData().then((data) => {
@@ -266,9 +263,9 @@ function firstDisplayOfData() {
       `
         leaderboard.append(newUserScore)
       })
+      loader.classList.remove('active')
+       // lancement du jeu
+      play()
     }
-    loader.classList.remove('active')
-    // lancement du jeu
-    play()
   })
 }
