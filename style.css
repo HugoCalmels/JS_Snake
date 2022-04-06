@@ -287,11 +287,6 @@ body {
   font-size: 1.5rem;
 }
 .menu-leaderboard{
-
-  color: black;
-
-  border: 2px solid yellow;
-
   display: grid;
   grid-template-columns: 1fr 1fr; 
   gap: .75rem;
