@@ -5,7 +5,7 @@ import Fruit from './components/Fruit.js';
 import SnakeDigest from './components/SnakeDigest.js';
 
 // VARIABLES
-var fps =2;
+var fps =3;
 var now;
 var then;
 var interval = 1000/fps;
@@ -109,7 +109,7 @@ function draw(now) {
               snake.updateByKeyboard(lastKey)
             }
             snake.bodyMove()
-          }, 450) // fin du timeout nesté
+          }, 300) // fin du timeout nesté
         }, 20)
           
         // recupération des données de snakeHead
