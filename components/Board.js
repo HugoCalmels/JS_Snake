@@ -39,10 +39,13 @@ export default class Board {
     let windowHeight = wrapper.offsetHeight
     let VH_UNIT = windowHeight / 100
     for (let i = 0; i < windowWidth; i += VH_UNIT*2) {
-      if ((this.width%2) === 0 && i >= (windowWidth * .8)) {
+      if ((this.width%3) === 0 && (this.width%2) === 0 && i >= (windowWidth * .8)) {
         this.boardElem.style.width = `${i / 1.5}px`
         this.menu.style.width = `${i / 3}px`
-        console.log(this.width)
+        console.log('--------------')
+        console.log(this.width/3)
+        
+        console.log('--------------')
         this.rightWall = this.width/1.5
         snake.style.setProperty('--y', this.width/4)
         return this.width

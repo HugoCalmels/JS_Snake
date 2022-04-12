@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rubik+Glitch&display=swap');
 
+
+
 body {
   font-family: 'Kanit', sans-serif;
   margin: 0;
@@ -26,7 +28,7 @@ body {
 #board {
   --width: 40;
   background: var(--background-color);
-
+  border: 3px solid var(--third-color);
   overflow: hidden;
   border-radius: 10px;
   position: relative;
@@ -54,8 +56,8 @@ body {
   position: absolute;
   top: calc(var(--x) * 2vh);
   left: calc(var(--y) * 2vh);
-  transition: 0.3s;
-  animation: .3s cubic-bezier(0,.48,.63,.99);
+  transition: 0.15s;
+  animation: .15s cubic-bezier(0,.48,.63,.99);
 }
 
 .snake-eyes{
@@ -85,8 +87,8 @@ body {
 
   background-color: green;
   box-sizing: border-box;
-  transition: 0.2s;
-  animation: .2s cubic-bezier(0,.48,.63,.99);
+  transition: 0.15s;
+  animation: .15s cubic-bezier(0,.48,.63,.99);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -363,6 +363,7 @@ export default class Snake {
     this.y = 20
     this.x = 40 / 2
     this.userName = ''
+    document.querySelector('.score-header h2').innerHTML = '<h2>SCORE : <span id="score">0</span></h2>'
   }
 }
 
